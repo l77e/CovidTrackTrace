@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -21,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".VenueCheckin"
+            android:name=".venuecheckin.VenueCheckin"
             android:label="@string/title_activity_venue_checkin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

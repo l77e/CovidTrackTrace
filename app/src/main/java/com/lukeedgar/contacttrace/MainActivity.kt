@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.lukeedgar.contacttrace.venuecheckin.VenueCheckin
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -32,6 +33,12 @@ class MainActivity : AppCompatActivity() {
                     Intent.ACTION_VIEW,
                     Uri.parse("https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms/#symptoms"))
             startActivity(browserIntent)
+        }
+        btnVenueCheckin.setOnClickListener {
+
+            Intent(this, VenueCheckin::class.java).also {
+                startActivity(it)
+            }
         }
         rw_switch.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (!isChecked) deviceList.text = ""
