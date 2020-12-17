@@ -5,4 +5,4 @@ import java.util.*
 
 data class ExposureId(
     @SerializedName("id") val id : String,
-    @SerializedName("dateOfGeneration") val dateOfGeneration : Date)
+    @SerializedName("dateOfGeneration") val dateOfGeneration : String)

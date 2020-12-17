@@ -3,11 +3,15 @@ package com.lukeedgar.contacttrace
 import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.lukeedgar.contacttrace.venuecheckin.VenueCheckin
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         btnNewTest.setOnClickListener {
+            val db = ExposureIdDatabase(this)
             Intent(this, TestRegistrationActivity::class.java).also {
                 startActivity(it)
             }
@@ -51,6 +56,18 @@ class MainActivity : AppCompatActivity() {
 
         val pairedDevicesStrings = pairedDevices.map {
             "${it.name} - id: ${it.uuids[0]}"
+        }
+
+        val db = ExposureIdDatabase(this)
+        val writableDb = db.writableDatabase
+        pairedDevices.forEach {
+            db.put(
+                writableDb,
+                ExposureId(
+                    it.uuids[0].toString(),
+                    System.currentTimeMillis().toString()
+                )
+            )
         }
 
         deviceList.text = "Nearby Devices:\n ${pairedDevicesStrings.joinToString("\n")}n"
