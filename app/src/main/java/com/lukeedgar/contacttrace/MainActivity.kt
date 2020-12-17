@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         btnNewTest.setOnClickListener {
-            val db = ExposureIdDatabase(this)
             Intent(this, TestRegistrationActivity::class.java).also {
                 startActivity(it)
             }
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(browserIntent)
         }
         btnVenueCheckin.setOnClickListener {
-
             Intent(this, VenueCheckin::class.java).also {
                 startActivity(it)
             }
