@@ -3,15 +3,15 @@ package com.lukeedgar.contacttrace
 import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.lukeedgar.contacttrace.venuecheckin.VenueCheckin
+import com.ramotion.paperonboarding.PaperOnboardingFragment
+import com.ramotion.paperonboarding.PaperOnboardingPage
 import kotlinx.android.synthetic.main.activity_main.*
-import java.time.Instant
-import java.time.format.DateTimeFormatter
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
+        goToOnboardingOnFirstLaunch()
+
         btnNewTest.setOnClickListener {
             Intent(this, TestRegistrationActivity::class.java).also {
                 startActivity(it)
@@ -34,14 +36,22 @@ class MainActivity : AppCompatActivity() {
         }
         btnSymptems.setOnClickListener {
             val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms/#symptoms"))
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms/#symptoms")
+            )
             startActivity(browserIntent)
         }
         btnVenueCheckin.setOnClickListener {
             Intent(this, VenueCheckin::class.java).also {
                 startActivity(it)
             }
+        }
+        btnBookTest.setOnClickListener {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://self-referral.test-for-coronavirus.service.gov.uk/antigen/essential-worker")
+            )
+            startActivity(browserIntent)
         }
         rw_switch.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (!isChecked) deviceList.text = ""
@@ -69,6 +79,43 @@ class MainActivity : AppCompatActivity() {
         }
 
         deviceList.text = "Nearby Devices:\n ${pairedDevicesStrings.joinToString("\n")}n"
+    }
+
+    private fun goToOnboardingOnFirstLaunch() {
+        val elements = arrayListOf(
+            PaperOnboardingPage(
+                "Contact Tracing",
+                "This app exchanges codes with other devices, to alert you with possible exposures to people with positve covid 19 tests",
+                Color.parseColor("#678FB4"),
+                R.drawable.ic_exposure,
+                R.drawable.onboarding_pager_circle_icon
+            ),
+            PaperOnboardingPage(
+                "Privicy First",
+                "Your personal information never leaves this device, unless you insert a positive PCR test code",
+                Color.parseColor("#65B0B4"),
+                R.drawable.ic_baseline_privacy_tip_24,
+                R.drawable.onboarding_pager_circle_icon
+            ),
+            PaperOnboardingPage(
+                "Check in to venues with NFC",
+                "Get alerts from venues you've recently been, if someone has tested postive.",
+                Color.parseColor("#9B90BC"),
+                R.drawable.ic_baseline_add_business_24,
+                R.drawable.onboarding_pager_circle_icon
+            )
+        )
+        val onBoardingFragment = PaperOnboardingFragment.newInstance(elements)
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragment_container.visibility = View.VISIBLE
+        fragmentTransaction.add(R.id.fragment_container, onBoardingFragment)
+        fragmentTransaction.commit()
+
+        onBoardingFragment.setOnRightOutListener {
+            fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
+            fragment_container.visibility = View.GONE
+            fragmentTransaction.remove(onBoardingFragment)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

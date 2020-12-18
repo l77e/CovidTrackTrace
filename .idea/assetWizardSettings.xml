@@ -329,7 +329,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio%20Preview.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/check_box/baseline_check_box_24.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio%20Preview.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/add_business/baseline_add_business_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -339,8 +339,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="78e32b" />
-                            <entry key="outputName" value="check_box" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_baseline_add_business_24" />
                           </map>
                         </option>
                       </PersistentState>
