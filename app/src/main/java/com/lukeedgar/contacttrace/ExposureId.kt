@@ -14,9 +14,9 @@ data class ExposureId(
 
     val isInInfectiousPeriod: Boolean by lazy {
         // 14 day infectious period.
-        val hoursInInfectiousPeriod = 336
+        val hoursInInfectiousPeriod = 336L
         val dateTime: ZonedDateTime = Instant.ofEpochMilli(dateOfGeneration.toLong())
             .atZone(ZoneId.systemDefault())
-        dateTime > dateTime.minusHours(336)
+        dateTime > dateTime.minusHours(hoursInInfectiousPeriod)
     }
 }
